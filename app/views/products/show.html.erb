@@ -1,0 +1,33 @@
+<div class="flow-root">
+  <% content_for :title, @product.name %>
+  <div class="flex justify-between items-center pb-5">
+    <h1 class="font-bold text-4xl"><%= @product.name %></h1>
+    <%= link_to "Back to products", products_path, class: "rounded-lg py-3 px-5 bg-gray-100 block font-medium" %>
+  </div>
+  <dl class="-my-3 divide-y divide-gray-100 text-sm">
+    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+      <dt class="font-medium text-gray-900">Image</dt>
+      <dd class="text-gray-700 sm:col-span-2">
+        <%= image_tag(@product.image, class: "rounded h-256 w-auto") %>
+      </dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+      <dt class="font-medium text-gray-900">Name</dt>
+      <dd class="text-gray-700 sm:col-span-2"><%= @product.name %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+      <dt class="font-medium text-gray-900">Price</dt>
+      <dd class="text-gray-700 sm:col-span-2"><%= number_to_currency(@product.name) %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+      <dt class="font-medium text-gray-900">Description</dt>
+      <dd class="text-gray-700 sm:col-span-2"><%= @product.description %></dd>
+    </div>
+  </dl>
+  <div class="flex align-center justify-end mt-3">
+    <%= link_to "Edit this product", edit_product_path(@product), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <div class="inline-block ml-3">
+      <%= button_to "Destroy this product", @product, method: :delete, class: "rounded-lg py-3 px-5 bg-red-500 text-white font-medium" %>
+    </div>
+  </div>
+</div>
