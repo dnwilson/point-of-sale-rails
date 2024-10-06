@@ -1,7 +1,64 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New sale</h1>
-
-  <%= render "form", sale: @sale %>
-
-  <%= link_to "Back to sales", sales_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+<div class="mx-auto w-full">
+  <% content_for :title, "Products" %>
+  <%= form_with(model: @sale) do %>
+    <div class="flex justify-between items-center mb-5">
+      <h1 class="font-bold text-4xl">New Sale</h1>
+    </div>
+    <!-- Main Grid: Two-column on desktop, single-column on mobile -->
+    <div class="grid grid-cols-1 lg:grid-cols-6 gap-4">
+      <!-- First Column (3/4 on Desktop) -->
+      <div class="lg:col-span-4">
+        <!-- Sub-grid for images and labels -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <!-- Example of an item with image and label -->
+          <% Product.all.each do |product| %>
+            <a href="#" class="relative block rounded-tr-3xl border border-gray-100">
+              <span
+                class="absolute -right-px -top-px rounded-bl-2xl rounded-tr-2xl bg-green-100 text-xs text-green-900 px-3 py-1.5 font-medium uppercase tracking-widest"
+              >
+                <%= number_to_currency(product.price) %>
+              </span>
+              <%= image_tag(product.image, alt: product.name, class: "w-full h-32 rounded-tr-3xl object-cover") %>
+              <div class="text-center py-2 px-3 truncate">
+                <strong class="font-medium text-sm text-gray-900"><%= product.name %></strong>
+              </div>
+            </a>
+          <% end %>
+          <!-- Repeat for additional items -->
+        </div>
+      </div>
+      <!-- Second Column (1/4 on Desktop) -->
+      <div class="lg:col-span-2 bg-gray-200 p-4 rounded-lg">
+        <!-- Payment Amount -->
+        <div class="flex flex-col h-full justify-between">
+          <div class="flex-1">
+            <div class="flex items-center justify-between border-b border-gray-300 py-3">
+              <div class="block">
+                <div class="font-semibold text-md">Oxtail</div>
+                <div class="text-xs text-gray-500">2 x $20.00</div>
+              </div>
+              <div class="block font-semibold text-right text-sm">
+                $40.00
+              </div>
+            </div>
+            <div class="flex items-center justify-between border-b border-gray-300 py-3">
+              <div class="block">
+                <div class="font-semibold text-md">Ackee</div>
+                <div class="text-xs text-gray-500">1 x $12.00</div>
+              </div>
+              <div class="block text-right text-sm font-semibold">
+                $24.00
+              </div>
+            </div>
+          </div>
+          <div class="buttons">
+            <button class="col-span-2 bg-green-700 font-semibold text-white p-4 w-full rounded-lg flex justify-between">
+              <span>Pay</span>
+              <span>$73.60</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

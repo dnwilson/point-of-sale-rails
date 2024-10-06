@@ -1,0 +1,42 @@
+<!-- Keypad for Numbers -->
+<div class="grid grid-cols-3 gap-2 mb-4">
+  <button class="bg-gray-300 text-black p-4 rounded-lg">9</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">8</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">7</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">6</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">5</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">4</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">3</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">2</button>
+  <button class="bg-gray-300 text-black p-4 rounded-lg">1</button>
+  <button class="col-span-1 bg-gray-300 text-black p-4 rounded-lg"><%= "<" %></button>
+  <button class="col-span-2 bg-gray-300 text-black p-4 rounded-lg">0</button>
+</div>
+<!-- Additional Buttons for Payment and Actions -->
+<div class="grid grid-cols-2 gap-4">
+  <button class="col-span-2 bg-blue-500 text-white p-4 rounded-lg">Pay</button>
+  <button class="bg-red-500 text-white p-2 rounded-lg">Cancel</button>
+  <!-- Additional buttons -->
+  <button class="bg-green-500 text-white p-2 rounded-lg">Custom 1</button>
+  <button class="bg-yellow-500 text-white p-2 rounded-lg">Custom 2</button>
+</div>
+<ul class="list-none mb-3">
+  <li class="flex items-center justify-between border-y border-gray-300 py-2">
+    <div class="block">
+      <div class="text-xs">Subtotal</div>
+    </div>
+    <div class="block text-right text-sm">$64.00</div>
+  </li>
+  <li class="flex items-center justify-between border-b border-gray-300 py-2">
+    <div class="block">
+      <div class="text-xs">Tax</div>
+    </div>
+    <div class="block text-right text-sm">$9.60</div>
+  </li>
+  <li class="flex items-center justify-between border-b border-gray-300 py-2">
+    <div class="block">
+      <div class="text-sm font-bold">Total</div>
+    </div>
+    <div class="block text-right text-sm font-bold">$73.60</div>
+  </li>
+</ul>
