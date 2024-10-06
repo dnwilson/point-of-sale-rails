@@ -17,7 +17,7 @@ servers:
 # Set ssl: false if using something like Cloudflare to terminate SSL (but keep host!).
 proxy:
   ssl: false
-  # host: point-of-sale.sweetsop.co
+  host: point-of-sale.fiyahsoft.com
 
 # Credentials for your image host.
 registry:
