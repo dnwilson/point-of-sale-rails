@@ -1,10 +1,10 @@
 <div class="mx-auto w-full">
   <% content_for :title, "Products" %>
-  <%= form_with(model: @sale) do %>
+  <%= form_with(model: @sale, data: { controller: "form", action: "checkout@window->form#submit" }) do |f| %>
+    <%= f.hidden_field :tendered, data: { form_target: "tendered" } %>
     <div class="flex justify-between items-center mb-5">
       <h1 class="font-bold text-4xl">New Sale</h1>
     </div>
-    <!-- Main Grid: Two-column on desktop, single-column on mobile -->
     <div class="grid grid-cols-1 lg:grid-cols-6 gap-4">
       <!-- First Column (3/4 on Desktop) -->
       <div class="lg:col-span-4">
@@ -12,7 +12,12 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           <!-- Example of an item with image and label -->
           <% Product.all.each do |product| %>
-            <a href="#" class="relative block rounded-tr-3xl border border-gray-100">
+            <a href="javascript:"
+              data-controller="event"
+              data-action="event#dispatch"
+              data-event-name-value="add-item"
+              data-event-detail-value="<%= product.as_json(only: %i[id name price]).to_json %>"
+              class="relative block rounded-tr-3xl border border-gray-100">
               <span
                 class="absolute -right-px -top-px rounded-bl-2xl rounded-tr-2xl bg-green-100 text-xs text-green-900 px-3 py-1.5 font-medium uppercase tracking-widest"
               >
@@ -31,34 +36,63 @@
       <div class="lg:col-span-2 bg-gray-200 p-4 rounded-lg">
         <!-- Payment Amount -->
         <div class="flex flex-col h-full justify-between">
-          <div class="flex-1">
-            <div class="flex items-center justify-between border-b border-gray-300 py-3">
-              <div class="block">
-                <div class="font-semibold text-md">Oxtail</div>
-                <div class="text-xs text-gray-500">2 x $20.00</div>
-              </div>
-              <div class="block font-semibold text-right text-sm">
-                $40.00
-              </div>
-            </div>
-            <div class="flex items-center justify-between border-b border-gray-300 py-3">
-              <div class="block">
-                <div class="font-semibold text-md">Ackee</div>
-                <div class="text-xs text-gray-500">1 x $12.00</div>
-              </div>
-              <div class="block text-right text-sm font-semibold">
-                $24.00
-              </div>
+          <div class="flex-1" data-controller="nested">
+            <template data-nested-target="template">
+              <%= f.fields_for :sale_items, SaleItem.new, child_index: "NEW_RECORD" do |ff| %>
+                <%= render "sale_item_fields", f: ff %>
+              <% end %>
+            </template>
+            <%= f.fields_for :sale_items do |ff| %>
+              <%= render "sale_item_fields", f: ff %>
+            <% end %>
+            <div class="line-items" data-nested-target="list" data-action="add-item@window->nested#add remove-item@window->nested#remove">
             </div>
           </div>
           <div class="buttons">
-            <button class="col-span-2 bg-green-700 font-semibold text-white p-4 w-full rounded-lg flex justify-between">
+            <a data-controller="event" data-action="click->event#dispatch" data-event-name-value="open-modal" class="col-span-2 bg-green-700 font-semibold text-white p-4 w-full rounded-lg flex justify-between">
               <span>Pay</span>
-              <span>$73.60</span>
-            </button>
+              <span class="total" data-controller="total" data-action="add-item@window->total#update" data-total-line-item-outlet=".item"><%= number_to_currency(f.object.total || 0) %></span>
+            </a>
           </div>
         </div>
       </div>
     </div>
   <% end %>
+  <div data-controller="modal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50 hidden" data-modal-target="overlay" data-action="click->modal#close open-modal@window->modal#open">
+    <div data-modal-target="content" class="w-full max-w-lg p-6 bg-white rounded-lg transform translate-y-full transition-transform duration-300 ease-in-out">
+      <div class="sale-modal" data-controller="keypad" data-keypad-total-outlet=".total" data-action="open-modal@window->keypad#init">
+        <div class="absolute -top-4 -right-4">
+          <button class="relative flex items-center justify-center rounded-full bg-red-500 text-white p-4 h-10 w-10" data-action="click->modal#close">x</button>
+        </div>
+        <div class="input-wrapper mb-4">
+          <div id="keypad-input" class="p-4 text-5xl text-center font-bold rounded-lg w-full" data-keypad-target="entry">0.00</div>
+          <div class="flex justify-between text-sm font-semibold">
+            <div class="flex items-center py-2 text-green-700">
+              <div class="label pr-2">Total:</div>
+              <div class="value" data-keypad-target="total">0.00</div>
+            </div>
+            <div class="flex items-center py-2 text-red-500">
+              <div class="label pr-2">Change:</div>
+              <div class="value" data-keypad-target="balance">0.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-2 border-separate">
+          <% 9.times do |n| %>
+            <button class="border border-gray-300 text-black p-4 rounded-lg keypad hover:bg-gray-100" data-keypad-target="input" data-action="click->keypad#input" data-value="<%= n + 1 %>"><%= n + 1 %></button>
+          <% end %>
+          <button class="border border-gray-300 text-red-500 p-4 rounded-lg keypad hover:bg-gray-100" data-keypad-target="input" data-action="click->keypad#input" data-value="-1">C</button>
+          <button class="border border-gray-300 col-span-2 text-black p-4 rounded-lg keypad hover:bg-gray-100" data-keypad-target="input" data-action="click->keypad#input" data-value="0">0</button>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-2">
+          <button class="bg-gray-300 text-black p-4 rounded-lg hover:bg-gray-400" data-keypad-target="input" data-action="click->keypad#input" data-value="20">$20</button>
+          <button class="bg-gray-300 text-black p-4 rounded-lg hover:bg-gray-400" data-keypad-target="input" data-action="click->keypad#input" data-value="50">$50</button>
+          <button class="bg-gray-300 text-black p-4 rounded-lg hover:bg-gray-400" data-keypad-target="input" data-action="click->keypad#input" data-value="100">$100</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button data-controller="event" data-action="click->event#dispatch" data-event-name-value="checkout" class="col-span-2 bg-green-500 disabled:bg-gray-200 disabled:text-gray-400 hover:bg-green-700 text-white p-4 rounded-lg" data-keypad-target="submit" disabled>CASH</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

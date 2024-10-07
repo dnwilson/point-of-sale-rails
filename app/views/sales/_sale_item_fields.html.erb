@@ -1,0 +1,19 @@
+<div data-controller="line-item"
+  data-line-item-quantity-value="<%= f.object.quantity || 1 %>"
+  data-line-item-price-value="<%= f.object.product_price || 0 %>"
+  data-line-item-id-value="<%= f.object.product_id %>"
+  data-line-item-name-value="<%= f.object.product_name %>"
+  data-line-item-subtotal-value="<%= f.object.subtotal || 0 %>"
+  data-new-record="<%= f.object.new_record? %>"
+  class="item flex items-center justify-between border-b border-gray-300 py-3">
+  <%= f.hidden_field :product_id, data: { line_item_target: "id" } %>
+  <%= f.hidden_field :quantity, data: { line_item_target: "quantity" } %>
+  <%= f.hidden_field :_destroy %>
+  <div class="block">
+    <div class="font-semibold text-md" data-line-item-target="name"></div>
+    <div class="text-xs text-gray-500">
+      <span data-line-item-target="visibleQuantity"></span> x <span data-line-item-target="price"></span>
+    </div>
+  </div>
+  <div class="block font-semibold text-right text-sm" data-line-item-target="total"></div>
+</div>

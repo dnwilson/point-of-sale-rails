@@ -42,7 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_06_014115) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.decimal "price"
+    t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,8 +51,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_06_014115) do
     t.integer "product_id", null: false
     t.integer "sale_id", null: false
     t.integer "quantity"
-    t.decimal "subtotal"
-    t.decimal "total"
+    t.decimal "subtotal", precision: 8, scale: 2
+    t.decimal "total", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_sale_items_on_product_id"
@@ -60,7 +60,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_06_014115) do
   end
 
   create_table "sales", force: :cascade do |t|
-    t.decimal "total"
+    t.decimal "total", precision: 8, scale: 2
+    t.decimal "tendered", precision: 8, scale: 2
+    t.decimal "balance", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
