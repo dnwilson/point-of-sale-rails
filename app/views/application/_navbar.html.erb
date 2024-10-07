@@ -1,0 +1,24 @@
+<header class="bg-white">
+  <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <div class="flex-1 md:flex md:items-center md:gap-12">
+        <%= link_to root_path, class: "block" do %>
+          <span class="sr-only">Home</span>
+          <%= image_tag(asset_path('pos-logo.png'), class: "h-10 w-10") %>
+        <% end %>
+      </div>
+      <div class="md:flex md:items-center md:gap-12">
+        <nav aria-label="Global" class="hidden md:block">
+          <ul class="flex items-center gap-6 text-sm">
+            <li>
+              <%= link_to "Sales", sales_path, class: "text-gray-500 transition hover:text-gray-500/75" %>
+            </li>
+            <li>
+              <%= link_to "Products", products_path, class: "text-gray-500 transition hover:text-gray-500/75" %>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>

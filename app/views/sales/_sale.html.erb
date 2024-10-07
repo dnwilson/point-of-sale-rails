@@ -1,7 +1,7 @@
 <div id="<%= dom_id sale %>" class="grid grid-cols-6 p-4 border-b">
   <div class="col-span-2 flex items-center j"><%= sale.created_at.strftime("%B %e, %Y %l:%M%P") %></div>
-  <div class="flex items-center justify-end"><%= number_to_currency(sale.total) %></div>
-  <div class="flex items-center justify-end"><%= number_to_currency(sale.tendered) %></div>
-  <div class="flex items-center justify-end"><%= number_to_currency(sale.balance) %></div>
+  <div class="flex items-center text-green-700 justify-end"><%= number_to_currency(sale.total) %></div>
+  <div class="flex items-center text-gray-700 justify-end"><%= number_to_currency(sale.tendered) %></div>
+  <div class="flex items-center text-red-500 justify-end"><%= number_to_currency(sale.balance) %></div>
   <div class="flex items-center justify-end"><%= link_to "View", sale, class: "ml-2 rounded py-2 text-xs font-medium px-5 bg-gray-100 inline-block font-medium" %></div>
 </div>

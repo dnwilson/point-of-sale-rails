@@ -8,7 +8,9 @@
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
       <dt class="font-medium text-gray-900">Image</dt>
       <dd class="text-gray-700 sm:col-span-2">
-        <%= image_tag(@product.image, class: "rounded h-256 w-auto") %>
+        <% if @product.image.attached? %>
+          <%= image_tag(@product.image, class: "rounded h-256 w-auto") %>
+        <% end %>
       </dd>
     </div>
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
@@ -17,7 +19,7 @@
     </div>
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
       <dt class="font-medium text-gray-900">Price</dt>
-      <dd class="text-gray-700 sm:col-span-2"><%= number_to_currency(@product.name) %></dd>
+      <dd class="text-gray-700 sm:col-span-2"><%= number_to_currency(@product.price) %></dd>
     </div>
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
       <dt class="font-medium text-gray-900">Description</dt>

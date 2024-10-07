@@ -1,33 +1,47 @@
-<div class="flow-root">
+<div class="flow-root w-full">
   <% content_for :title, "Sale ##{@sale.id}" %>
   <div class="flex justify-between items-center pb-5">
     <h1 class="font-bold text-4xl">Sale #<%= @sale.id %></h1>
-    <%= link_to "Back to products", products_path, class: "rounded-lg py-3 px-5 bg-gray-100 block font-medium" %>
+    <%= link_to "Back to sales", sales_path, class: "rounded-lg py-3 px-5 bg-gray-100 block font-medium" %>
   </div>
   <dl class="-my-3 divide-y divide-gray-100 text-sm">
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-      <dt class="font-medium text-gray-900">Image</dt>
+      <dt class="font-medium text-gray-900">ID</dt>
+      <dd class="text-gray-700 sm:col-span-2"><%= @sale.id %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+      <dt class="font-medium text-gray-900">Created at</dt>
+      <dd class="text-gray-700 sm:col-span-2"><%= @sale.created_at.strftime("%B %e, %Y %l:%M%P") %></dd>
+    </div>
+    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+      <dt class="font-medium text-gray-900">Sale Items</dt>
       <dd class="text-gray-700 sm:col-span-2">
-        <%= image_tag(@product.image, class: "rounded h-256 w-auto") %>
+        <div class="flex items-center">
+          <% @sale.sale_items.each do |item| %>
+            <span class="whitespace-nowrap rounded-full bg-gray-100 text-gray-500 px-2.5 py-0.5 mr-2 text-sm">
+              <%= item.product_name %> (<%= item.quantity %>)
+            </span>
+          <% end %>
+        </div>
       </dd>
     </div>
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-      <dt class="font-medium text-gray-900">Name</dt>
-      <dd class="text-gray-700 sm:col-span-2"><%= @product.name %></dd>
+      <dt class="font-medium text-gray-900">Tendered amount</dt>
+      <dd class="text-gray-700 sm:col-span-2"><%= number_to_currency(@sale.tendered) %></dd>
     </div>
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-      <dt class="font-medium text-gray-900">Price</dt>
-      <dd class="text-gray-700 sm:col-span-2"><%= number_to_currency(@product.name) %></dd>
+      <dt class="font-medium text-gray-900">Change</dt>
+      <dd class="text-red-700 sm:col-span-2"><%= number_to_currency(@sale.balance) %></dd>
     </div>
     <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-      <dt class="font-medium text-gray-900">Description</dt>
-      <dd class="text-gray-700 sm:col-span-2"><%= @product.description %></dd>
+      <dt class="font-medium text-gray-900">Total</dt>
+      <dd class="text-green-700 sm:col-span-2"><%= number_to_currency(@sale.total) %></dd>
     </div>
   </dl>
   <div class="flex align-center justify-end mt-3">
-    <%= link_to "Edit this product", edit_product_path(@product), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this sale", edit_sale_path(@sale), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-3">
-      <%= button_to "Destroy this product", @product, method: :delete, class: "rounded-lg py-3 px-5 bg-red-500 text-white font-medium" %>
+      <%= button_to "Destroy this sale", @sale, method: :delete, class: "rounded-lg py-3 px-5 bg-red-500 text-white font-medium" %>
     </div>
   </div>
 </div>
