@@ -25,7 +25,9 @@
               >
                 <%= number_to_currency(product.price) %>
               </span>
-              <%= image_tag(product.image, alt: product.name, class: "w-full h-32 rounded-tr-3xl object-cover") %>
+              <% if product.image&.attached? %>
+                <%= image_tag(product.image, alt: product.name, class: "w-full h-32 rounded-tr-3xl object-cover") %>
+              <% end %>
               <div class="text-center py-2 px-3 truncate">
                 <strong class="font-medium text-sm text-gray-900"><%= product.name %></strong>
               </div>
